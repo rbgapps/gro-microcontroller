@@ -9,6 +9,7 @@
 // Include Module Libraries
 #include "communication.h"
 //#include "sensor_dfr0161_0300.h"
+/*
 #include "sensor_vernier_ph.h"
 #include "sensor_vernier_ec.h"
 #include "sensor_ds18b20.h"
@@ -17,10 +18,13 @@
 #include "sensor_gc0011.h"
 #include "actuator_relay.h"
 #include "sensor_contact_switch.h"
-
+*/
+#include "sensor_tentacle.h"
 
 // Declare Module Objects
 Communication communication;
+
+/*
 SensorTsl2561 sensor_tsl2561_light_intensity_default("SLIN", 1, "SLPA", 1);
 //SensorDfr01610300 sensor_dfr01610300_water_ph_temperature_ec_default(A1, "SWPH", 1, 5, "SWTM", 1, A2, "SWEC", 1, 2, 22);
 SensorVernierPh sensor_venier_ph_default(A1, "SWPH", 1);
@@ -37,9 +41,14 @@ ActuatorRelay actuator_relay_air_vent_default(14, "AAVE", 1);
 ActuatorRelay actuator_relay_air_circulation_default(15, "AACR", 1);
 ActuatorRelay actuator_relay_light_chamber_illumination_default(53, "ALPN", 2); 
 ActuatorRelay actuator_relay_light_motherboard_illumination_default(52, "ALMI", 1);
+*/
+
+SensorTentacle sensorTentacle('1');
 
 void initializeModules(void) { 
   communication.begin();
+  
+  /*
   //sensor_dfr01610300_water_ph_temperature_ec_default.begin();
   sensor_venier_ph_default.begin();
   sensor_vernier_ec_default.begin();
@@ -61,6 +70,9 @@ void initializeModules(void) {
   actuator_relay_air_circulation_default.set("AACR", 1, "1");
   actuator_relay_light_motherboard_illumination_default.set("ALMI", 1, "1");
   actuator_relay_air_vent_default.set("AAVE", 1, "1");
+  */
+
+  sensorTentacle.begin();
 }
 
 void updateIncomingMessage(void) {
@@ -81,6 +93,7 @@ void updateStreamMessage(void) {
   // Initialize Stream Message
   String stream_message = "\"GTYP\":\"Stream\",";
 
+  /*
   // Get Stream Message
   //stream_message += sensor_dfr01610300_water_ph_temperature_ec_default.get();
   stream_message += sensor_venier_ph_default.get();
@@ -98,6 +111,9 @@ void updateStreamMessage(void) {
   stream_message += actuator_relay_light_panel_default.get();
   stream_message += actuator_relay_light_chamber_illumination_default.get();
   stream_message += actuator_relay_light_motherboard_illumination_default.get();
+  */
+  
+  stream_message += sensorTentacle.get();
 
   // Return Stream Message
   stream_message += "\"GEND\":0";
@@ -110,10 +126,16 @@ String handleIncomingMessage(void) {
   // Parse Message into: Instruction Code - ID - Parameter
   String return_message = "";
   String incoming_message = communication.receive();
+  //Serial.println(incoming_message);
   Instruction instruction = parseIncomingMessage(incoming_message);
+  //Serial.println(instruction.code);
+  //Serial.println(instruction.id);
+  //Serial.println(instruction.parameter);
+  //Serial.println(instruction.valid);
 
   // Pass Parsed Message To All Objects and Update Return Message if Applicable
   if (instruction.valid) {
+    /*
     //return_message += sensor_dfr01610300_water_ph_temperature_ec_default.set(instruction.code, instruction.id, instruction.parameter);
     return_message += sensor_venier_ph_default.set(instruction.code, instruction.id, instruction.parameter);
     return_message += sensor_vernier_ec_default.set(instruction.code, instruction.id, instruction.parameter);
@@ -130,6 +152,8 @@ String handleIncomingMessage(void) {
     return_message += actuator_relay_light_panel_default.set(instruction.code, instruction.id, instruction.parameter);
     return_message += actuator_relay_light_chamber_illumination_default.set(instruction.code, instruction.id, instruction.parameter);
     return_message += actuator_relay_light_motherboard_illumination_default.set(instruction.code, instruction.id, instruction.parameter);
+    */
+    return_message += sensorTentacle.set(instruction.code, instruction.id, instruction.parameter);
   }
   return return_message;
 }

@@ -13,18 +13,22 @@ void Communication::begin(void) {
   kStartOfHeaderChar = 1;
   kStartOfTextChar = 2;
   kEndOfTextChar = 3;
-  kEndOfTransmissionChar = 4;
+  kEndOfTransmissionChar = 'Z';//4;
   kEnquireChar = 5;
   kAcknowledgeChar = 6; 
   
   Serial.begin(kBaudRate);
-  Serial.write(kEnquireChar);  // send enquiry
+  //Serial.write(kEnquireChar);  // send enquiry
   uint32_t start_time = millis();
+
+  not_connected_ = 0;
+  /*
   while (1) {
     if (Serial.available()) { 
       if (Serial.read() == kAcknowledgeChar) { // await acknowledgement
         Serial.write(kAcknowledgeChar); // acknowledge acknowledgementq
-        not_connected_ = 0;
+        //not_connected_ = 0;
+        not_connected_ = 1; // FOR NOW
         return; // connected!
       }
     }
@@ -35,6 +39,7 @@ void Communication::begin(void) {
       break; // timed out :(
     }
   }
+  */
 }
 
 void Communication::send(String outgoing_message) {
@@ -44,8 +49,10 @@ void Communication::send(String outgoing_message) {
     Serial.println(outgoing_message);
   }
   else { // Connected to rPi
-    String packed_message = getPackedMessage(outgoing_message);
-    Serial.print(packed_message);
+    //String packed_message = getPackedMessage(outgoing_message);
+    //Serial.print(packed_message);
+    // FOR NOW lets ignore checksum
+    Serial.println(outgoing_message);
   }
 }
 
@@ -65,7 +72,7 @@ String Communication::receive(void) {
   uint32_t start_time = millis();
 
   // Handle Incoming Messages
-  while (1) {
+  while (Serial.available() > 0) {
     delay(10);
     incoming_char = Serial.read();
 
@@ -93,7 +100,7 @@ String Communication::receive(void) {
     if (timed_out) {
       return "";
     } 
-    String unpacked_message =  getUnpackedMessage(incoming_message);
+	String unpacked_message = incoming_message;//getUnpackedMessage(incoming_message);
     return unpacked_message;
   }
 }

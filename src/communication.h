@@ -10,6 +10,7 @@
 
 #if ARDUINO >= 100
  #include "Arduino.h"
+ #include "SerialCommand.h"
 #else
  #include "WProgram.h"
 #endif
@@ -48,6 +49,9 @@ class Communication {
     char kEndOfTransmissionChar;
     char kEnquireChar;
     char kAcknowledgeChar; 
+    // Don't quite understand the char enquire/acknowledge at this stage...
+    String kEnquireString;
+    String kAcknowledgeString;
 };
 
 #endif // COMMUNICATION_H_
