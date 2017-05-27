@@ -167,6 +167,9 @@ String handleIncomingMessage(void) {
 	  return_message += sensorStepper.set(instruction.code, instruction.id, instruction.parameter);
 	  return_message += sensorSht31.set(instruction.code, instruction.id, instruction.parameter);
 
+    return_message += SensorRelay::setBulk(instruction.code, instruction.id, instruction.parameter);
+
+    /*
     return_message += relay1.set(instruction.code, instruction.id, instruction.parameter);
     return_message += relay2.set(instruction.code, instruction.id, instruction.parameter);
     return_message += relay3.set(instruction.code, instruction.id, instruction.parameter);
@@ -207,7 +210,7 @@ String handleIncomingMessage(void) {
     return_message += relay38.set(instruction.code, instruction.id, instruction.parameter);
     return_message += relay39.set(instruction.code, instruction.id, instruction.parameter);
     return_message += relay40.set(instruction.code, instruction.id, instruction.parameter);
-    return_message += relay3.set(instruction.code, instruction.id, instruction.parameter);
+    */
   }
   return return_message;
 }

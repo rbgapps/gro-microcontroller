@@ -25,6 +25,8 @@ class SensorRelay : SensorActuatorModule {
     String get(void); 
     String set(String instruction_code, int instruction_id, String instruction_parameter);
 
+    static String setBulk(String instruction_code, int instruction_id, String instruction_parameter);
+
     // Public Variables
     bool is_connected_;
     

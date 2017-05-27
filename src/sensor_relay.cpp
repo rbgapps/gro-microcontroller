@@ -14,6 +14,7 @@ SensorRelay::SensorRelay(int pin, int instruction_id) {
 void SensorRelay::begin(void) {
  pinMode(_pin, OUTPUT);
  digitalWrite(_pin, HIGH);
+ //Serial.println(String(_pin) + " " + String(_instruction_id) + " LOW");
 }
 
 String SensorRelay::get(void) {
@@ -57,6 +58,8 @@ String SensorRelay::set(String instruction_code, int instruction_id, String inst
     response += "\":";
     response += instruction_id;
     response += ",";
+
+    //Serial.println(String(_pin) + " " + String(_instruction_id) + " LOW");
   }
 
   if (instruction_parameter == "OFF") {
@@ -67,6 +70,45 @@ String SensorRelay::set(String instruction_code, int instruction_id, String inst
     response += "\":";
     response += instruction_id;
     response += ",";
+
+    //Serial.println(String(_pin) + " " + String(_instruction_id) + " HIGH");
+  }
+  
+  return response;
+}
+
+String SensorRelay::setBulk(String instruction_code, int instruction_id, String instruction_parameter) {
+
+  String response = "";
+  
+  if (instruction_code != "BULK") {
+    return response;
+  }
+
+  /*
+  if (instruction_id != 1 || instruction_id != 0) {
+    return response;
+  }
+  */
+
+  int strLength = instruction_parameter.length() + 1;
+  char strArr[strLength];
+
+  instruction_parameter.toCharArray(strArr, strLength);
+
+  char *p = strArr;
+  char *relayNumber;
+
+  while ((relayNumber = strtok_r(p, ",", &p)) != NULL) {
+     //Serial.println(relayNumber);
+
+     if (instruction_id == 1) {
+       //Serial.println("Turning on " + atoi(relayNumber));
+       digitalWrite(atoi(relayNumber), LOW);
+     } else {
+       //Serial.println("Turning off ");
+       digitalWrite(atoi(relayNumber), HIGH);
+     }
   }
   
   return response;

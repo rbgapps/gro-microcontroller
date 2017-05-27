@@ -20,5 +20,5 @@ void loop() { // runs FOREVER!
   updateIncomingMessage();
   timer.update();
   //updateStreamMessage();
-  //delay(100);
+  delay(100);
 }
