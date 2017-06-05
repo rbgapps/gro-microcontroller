@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<data>
+  <loop>false</loop>
+  <repeat_times>1</repeat_times>
+  <repeat_period>500</repeat_period>
+  <frames_list>
+    <frame name="ND">
+      <payload>7E000408014E4464</payload>
+    </frame>
+    <frame name="BULK OFF">
+      <payload>7E001D10010013A20040BE4890FFFE000042554C4B20312032322C32332C323143</payload>
+    </frame>
+    <frame name="BULK ON">
+      <payload>7E001D10010013A20040BE4890FFFE000042554C4B20302032312C32322C323344</payload>
+    </frame>
+  </frames_list>
+</data>

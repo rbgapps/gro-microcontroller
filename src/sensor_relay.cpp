@@ -80,16 +80,14 @@ String SensorRelay::set(String instruction_code, int instruction_id, String inst
 String SensorRelay::setBulk(String instruction_code, int instruction_id, String instruction_parameter) {
 
   String response = "";
+  Serial.println("Bulk Instruction Received");
+  Serial.println(instruction_code);
+  Serial.println(instruction_id);
+  Serial.println(instruction_parameter);
   
   if (instruction_code != "BULK") {
     return response;
   }
-
-  /*
-  if (instruction_id != 1 || instruction_id != 0) {
-    return response;
-  }
-  */
 
   int strLength = instruction_parameter.length() + 1;
   char strArr[strLength];

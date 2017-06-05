@@ -154,12 +154,12 @@ String handleIncomingMessage(void) {
   // Parse Message into: Instruction Code - ID - Parameter
   String return_message = "";
   String incoming_message = communication.receive();
-  //Serial.println(incoming_message);
+  Serial.println(incoming_message);
   Instruction instruction = parseIncomingMessage(incoming_message);
-  //Serial.println(instruction.code);
-  //Serial.println(instruction.id);
-  //Serial.println(instruction.parameter);
-  //Serial.println(instruction.valid);
+  Serial.println(instruction.code);
+  Serial.println(instruction.id);
+  Serial.println(instruction.parameter);
+  Serial.println(instruction.valid);
 
   // Pass Parsed Message To All Objects and Update Return Message if Applicable
   if (instruction.valid) {
